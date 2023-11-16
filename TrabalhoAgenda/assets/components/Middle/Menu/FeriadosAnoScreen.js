@@ -12,11 +12,20 @@ const FeriadosAnoScreen = ({ onClose }) => {
       const response = await axios.get(
         `https://brasilapi.com.br/api/feriados/v1/${ano}`
       );
-      setFeriados(response.data);
+  
+      // Adicionar um dia a cada data
+      const feriadosComAjuste = response.data.map((feriado) => {
+        const eventDate = new Date(feriado.date);
+        eventDate.setDate(eventDate.getDate() + 1);
+        return { ...feriado, date: eventDate.toISOString().split('T')[0] };
+      });
+  
+      setFeriados(feriadosComAjuste);
     } catch (error) {
       console.error('Erro ao buscar feriados:', error);
     }
   };
+  
 
   useEffect(() => {
     getFeriados();
