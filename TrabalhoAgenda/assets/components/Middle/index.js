@@ -5,8 +5,7 @@ import { format, zonedTimeToUtc } from 'date-fns-tz';
 import AddEvent from './AddEvent';
 import Menu from './Menu/menu';
 
-// Configuração de localização para português
-LocaleConfig.locales['pt'] = {
+LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ],
@@ -16,7 +15,7 @@ LocaleConfig.locales['pt'] = {
   today: "Hoje"
 };
 
-LocaleConfig.defaultLocale = 'pt';
+LocaleConfig.defaultLocale = 'fr';
 
 const CalendarApp = () => {
   // Estados do componente
