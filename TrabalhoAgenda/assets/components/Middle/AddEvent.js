@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Modal, StyleSheet } from 'react-native';
 
 const AddEvent = ({ date, visible, onClose, onSave }) => {
+  // Estado local para armazenar o texto do evento
   const [eventText, setEventText] = useState('');
 
+  // Manipulador para salvar o evento
   const handleSaveEvent = () => {
     onSave(date, eventText);
-    setEventText('');
-    onClose();
+    setEventText(''); // Limpa o texto do evento após salvar
+    onClose(); // Fecha o modal
   };
 
   // Converte a data para um objeto Date se for uma string
@@ -22,13 +24,18 @@ const AddEvent = ({ date, visible, onClose, onSave }) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.container}>
+        {/* Texto indicando a data do evento */}
         <Text style={styles.dateText}>Novo evento para {formattedDate}</Text>
+
+        {/* Input para digitar o evento */}
         <TextInput
           style={styles.input}
           placeholder="Digite o evento"
           value={eventText}
           onChangeText={text => setEventText(text)}
         />
+
+        {/* Botões para salvar e voltar */}
         <View style={styles.buttonContainer}>
           <Button title="Salvar" onPress={handleSaveEvent} />
           <Button title="Voltar" onPress={onClose} />
@@ -38,6 +45,7 @@ const AddEvent = ({ date, visible, onClose, onSave }) => {
   );
 };
 
+// Estilos do componente
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '40%'
+    width: '40%',
   },
 });
 

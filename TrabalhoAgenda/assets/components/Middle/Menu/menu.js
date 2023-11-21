@@ -1,3 +1,4 @@
+// Importa as bibliotecas e componentes necessários
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -5,7 +6,9 @@ import TextEditor from './TextEditor';
 import LinkInput from './LinkInput';
 import FeriadosAnoScreen from './FeriadosAnoScreen';
 
+// Componente funcional Menu
 const Menu = () => {
+  // Estados para gerenciar a exibição do menu e das modais
   const [selectedOption, setSelectedOption] = useState(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [menuOption, setMenuOption] = useState(null);
@@ -14,18 +17,20 @@ const Menu = () => {
   const [textData, setTextData] = useState({});
   const [completedTexts, setCompletedTexts] = useState({});
   const [showIcons, setShowIcons] = useState({});
-  
 
+  // Função para deletar um texto concluído
   const handleDeleteCompletedText = (key) => {
     const newCompletedTexts = { ...completedTexts };
     delete newCompletedTexts[key];
     setCompletedTexts(newCompletedTexts);
   };
 
+  // Função para fechar o modal
   const handleCloseModal = () => {
     setIsMenuVisible(false);
   };
 
+  // Função para selecionar uma opção no menu
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     const newShowIcons = { ...showIcons };
@@ -35,11 +40,13 @@ const Menu = () => {
     setShowIcons(newShowIcons);
   };
 
+  // Função para lidar com o clique em um ícone
   const handleIconClick = (option) => {
     setMenuOption(option.label || option);
     setIsMenuVisible(true);
   };
 
+  // Função para selecionar uma opção no menu modal
   const handleMenuOptionSelect = (menuOption) => {
     if (menuOption === 'Texto') {
       setIsTextEditorVisible(true);
@@ -51,6 +58,7 @@ const Menu = () => {
     }
   };
 
+  // Função para salvar texto do TextEditor
   const handleTextSave = (option, text) => {
     const newTextData = { ...textData };
     if (!newTextData[option]) {
@@ -61,12 +69,14 @@ const Menu = () => {
     setIsTextEditorVisible(false);
   };
 
+  // Função para deletar texto de uma opção
   const handleDeleteText = (option, index) => {
     const newTextData = { ...textData };
     newTextData[option].splice(index, 1);
     setTextData(newTextData);
   };
 
+  // Função para mover texto para "Concluídos"
   const handleCompleteText = (option, index) => {
     const textToMove = textData[option][index];
     handleDeleteText(option, index);
@@ -75,6 +85,7 @@ const Menu = () => {
     }
   };
 
+  // Função para abrir um link
   const handleOpenLink = (link) => {
     if (link) {
       Linking.openURL(link)
@@ -83,20 +94,24 @@ const Menu = () => {
         });
     }
   };
-  
 
+  // Opções do menu
   const options = [
     { label: 'Tópicos de Estudos', icon: 'plus' },
     { label: 'Materiais de Estudo', icon: 'plus' },
     { label: 'Objetivos', icon: 'plus' },
-    { label: 'Concluídos' }, // Move "Concluídos" to a new line
-    { label: 'Feriados' }, // Move "Feriados" to a new line
+    { label: 'Concluídos' },
+    { label: 'Feriados' }, 
   ];
 
+  // Renderização do componente
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      {/* Renderiza as opções do menu em duas linhas */}
       <View style={styles.dropdownContainer}>
+        {/* Primeira linha de opções do menu */}
         <View style={styles.optionsRow}>
+          {/* Mapeia e exibe as primeiras três opções do menu */}
           {options.slice(0, 3).map((option, index) => (
             <TouchableOpacity
               key={index}
@@ -107,6 +122,7 @@ const Menu = () => {
               ]}
             >
               <Text>{option.label || option}</Text>
+              {/* Renderiza o ícone se disponível e se a opção estiver selecionada */}
               {option.icon && showIcons[option.label] && (
                 <TouchableOpacity onPress={() => handleIconClick(option)}>
                   <Icon name={option.icon} size={16} style={{ marginRight: 15 }} />
@@ -115,7 +131,9 @@ const Menu = () => {
             </TouchableOpacity>
           ))}
         </View>
+        {/* Segunda linha de opções do menu */}
         <View style={styles.optionsRow}>
+          {/* Mapeia e exibe as opções restantes do menu */}
           {options.slice(3).map((option, index) => (
             <TouchableOpacity
               key={index}
@@ -126,6 +144,7 @@ const Menu = () => {
               ]}
             >
               <Text>{option.label || option}</Text>
+              {/* Renderiza o ícone se disponível e se a opção estiver selecionada */}
               {option.icon && showIcons[option.label] && (
                 <TouchableOpacity onPress={() => handleIconClick(option)}>
                   <Icon name={option.icon} size={16} style={{ marginRight: 15 }} />
@@ -135,16 +154,19 @@ const Menu = () => {
           ))}
         </View>
       </View>
+      {/* Exibe a opção selecionada */}
       {selectedOption && (
         <View style={{ marginTop: 20 }}>
           <Text >Você selecionou: {selectedOption}</Text>
         </View>
       )}
-
+  
+      {/* Renderiza o componente FeriadosAnoScreen quando a opção "Feriados" é selecionada */}
       {selectedOption === 'Feriados' && (
         <FeriadosAnoScreen />
       )}
 
+      {/* Modal do menu */}
       <Modal
         visible={isMenuVisible}
         transparent={true}
@@ -167,6 +189,7 @@ const Menu = () => {
         </View>
       </Modal>
 
+      {/* Modal do TextEditor */}
       {isTextEditorVisible && (
         <TextEditor
           menuOption={menuOption}
@@ -175,19 +198,16 @@ const Menu = () => {
         />
       )}
 
-      <Modal
-        visible={isLinkInputVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setIsLinkInputVisible(false)}
-      >
+      {/* Modal do LinkInput */}
+      {isLinkInputVisible && (
         <LinkInput
-          menuOption={menuOption}
-          onClose={() => setIsLinkInputVisible(false)}
-          onSave={(link) => handleTextSave(menuOption, link)}
-        />
-      </Modal>
+        menuOption={menuOption}
+        onClose={() => setIsLinkInputVisible(false)}
+        onSave={(link) => handleTextSave(menuOption, link)}
+      />
+      )}
 
+      {/* Renderiza textos da opção selecionada, permitindo exclusão, marcação como concluído e abertura de links */}
       {selectedOption !== 'Concluídos' && textData[selectedOption] && textData[selectedOption].map((text, index) => (
         <View key={index} style={{ marginTop: 20, flexDirection: 'row', alignItems: 'center' }}>
           <Icon
@@ -216,6 +236,7 @@ const Menu = () => {
         </View>
       ))}
 
+      {/* Renderiza textos concluídos, permitindo exclusão */}
       {selectedOption === 'Concluídos' && Object.keys(completedTexts).length > 0 && (
         <View style={{ marginTop: 20 }}>
           {Object.keys(completedTexts).map((key, index) => (
@@ -237,10 +258,12 @@ const Menu = () => {
   );
 };
 
+// Função auxiliar para verificar se uma opção é um link
 function optionIsLink(option) {
   return option.startsWith('http://') || option.startsWith('https://');
 }
 
+// Estilos para o componente
 const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: 'column',
