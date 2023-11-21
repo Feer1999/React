@@ -5,42 +5,18 @@ import { format, zonedTimeToUtc } from 'date-fns-tz';
 import AddEvent from './AddEvent';
 import Menu from './Menu/menu';
 
-LocaleConfig.locales['fr'] = {
+LocaleConfig.locales['pt'] = {
   monthNames: [
-    'Janvier',
-    'Février',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juillet',
-    'Août',
-    'Septembre',
-    'Octobre',
-    'Novembre',
-    'Décembre'
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ],
-  monthNames: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro'
-  ],
-  monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+  monthNamesShort: ['Jan.', 'Fev.', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul.', 'Agt', 'Set.', 'Out.', 'Nov.', 'Dez.'],
   dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
   dayNamesShort: ['Dom.', 'Seg.', 'Ter.', 'Qua.', 'Qui.', 'Sex.', 'Sáb.'],
-  today: "Aujourd'hui"
+  today: "Hoje"
 };
 
-LocaleConfig.defaultLocale = 'fr';
+LocaleConfig.defaultLocale = 'pt';
+
 
 const CalendarApp = () => {
   const [selected, setSelected] = useState('');
